@@ -57,9 +57,9 @@
 </template>
 
 <script>
-import Bscroll from "better-scroll";
+import Bscroll from 'better-scroll'
 export default {
-  name: "Goods",
+  name: 'Goods',
   props: {
     data: {
       type: Object,
@@ -68,11 +68,12 @@ export default {
   },
   data() {
     return {
-      foodsHeightList: []
-    };
+      foodsHeightList: [],
+      scrollY: ''
+    }
   },
   created() {
-    console.log(this.data);
+    console.log(this.data)
   },
   methods: {
     //betterscroll
@@ -82,35 +83,39 @@ export default {
           mouseWheel: true,
           click: true,
           tap: true
-        });
+        })
         this.foodsWrapper = new Bscroll(this.$refs.foodsWrapper, {
           probeType: 3,
           click: true
-        });
+        })
+        //获取当前foods栏滚动高度
+        this.foodsWrapper.on('scroll', pos => {
+          this.scrollY = Math.abs(Math.floor(pos.y))
+        })
       }
-      //获取当前foods栏滚动高度
     },
     _calFoodsHeightList() {
-      const height = this.$refs.foodsList;
+      const height = this.$refs.foodsList
       if (height) {
         for (let i = 0; i < height.length; i++) {
-          this.foodsHeightList.push(height[i].offsetTop);
+          this.foodsHeightList.push(height[i].offsetTop)
         }
       }
     },
     handleClickFoods(item, index) {
-      this.foodsWrapper.scrollToElement(this.$refs.foodsList[index], 300);
+      this.foodsWrapper.scrollToElement(this.$refs.foodsList[index], 300)
     }
   },
   components: {},
-  computed: {},
+  computed: {
+  },
   created() {},
   mounted() {
     //该时间点可以最先操作DOM节点    created不能操作
-    this._initScroll();
-    this._calFoodsHeightList();
+    this._initScroll()
+    this._calFoodsHeightList()
   }
-};
+}
 </script>
 
 <style lang="less" scoped>
@@ -129,6 +134,7 @@ export default {
     .menu-items {
       width: 100%;
       .menu-content {
+        width: 100%;
         height: 54px;
         line-height: 14px;
         display: table;

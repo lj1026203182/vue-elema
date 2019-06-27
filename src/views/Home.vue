@@ -66,98 +66,98 @@
 </template>
 
 <script>
-import { getApi, serverApi } from "../axios/index";
-import FilterView from "../components/FilterView/FilterView";
-import IndexShop from "../components/IndexShop";
+import { getApi, serverApi } from '../axios/index'
+import FilterView from '../components/FilterView/FilterView'
+import IndexShop from '../components/IndexShop'
 export default {
-  name: "Home",
+  name: 'Home',
   data() {
     return {
-      value: "",
+      value: '',
       swipeImgs: [],
       swipeIcons: [],
-      indicator: "",
+      indicator: '',
       isLoading: false,
       filterData: {},
       fixedview: false,
-      data: "",
+      data: '',
       page: 1,
       size: 5,
       restaurants: [],
       loading: false,
       finished: false
       // isRefresh:false
-    };
+    }
   },
   created() {
-    this.getData();
+    this.getData()
   },
   methods: {
     getData() {
       getApi(
-        "/profile/shopping",
+        '/profile/shopping',
         response => {
           // console.log(response);
-          if (response.statusText === "OK") {
-            this.swipeImgs = response.data.swipeImgs;
-            this.swipeIcons = response.data.entries;
+          if (response.statusText === 'OK') {
+            this.swipeImgs = response.data.swipeImgs
+            this.swipeIcons = response.data.entries
           }
         },
         error => {
           // console.log(error);
         }
-      );
+      )
       getApi(
-        "/profile/filter",
+        '/profile/filter',
         response => {
           // console.log(response);
-          this.filterData = response.data;
+          this.filterData = response.data
         },
         error => {
-          console.log(error);
+          console.log(error)
         }
-      );
-      this.loadData();
+      )
+      this.loadData()
     },
     loadData() {
-      this.isLoading = true;
-      this.page = 1;
+      this.isLoading = true
+      this.page = 1
       serverApi(
         `/profile/restaurants/${this.page}/${this.size}`,
         this.data,
         response => {
-          this.isLoading = false;
-          this.restaurants = response.data;
+          this.isLoading = false
+          this.restaurants = response.data
         },
         error => {
-          console.log(error);
+          console.log(error)
         }
-      );
+      )
     },
     // 跳转到收货地址
     clickToAddress() {
       this.$router.push({
-        name: "Address",
+        name: 'Address',
         params: { city: this.currentCity, address: this.currentAddress }
-      });
+      })
     },
     // sticky效果
     searchFixed(show) {
-      this.fixedview = show;
+      this.fixedview = show
     },
     //更新列表数据
     updata(condition) {
-      this.data = condition;
-      this.finished = false;
+      this.data = condition
+      this.finished = false
       // console.log(this.data);
-      this.loadData();
+      this.loadData()
     },
     onSearch() {
-      console.log(this.value);
+      console.log(this.value)
     },
     // 上啦加载
     onLoad() {
-      this.page++;
+      this.page++
       setTimeout(() => {
         serverApi(
           `/profile/restaurants/${this.page}/${this.size}`,
@@ -165,18 +165,18 @@ export default {
           response => {
             // console.log(response.data);
             response.data.forEach(element => {
-              this.restaurants.push(element);
-            });
-            this.loading = false;
+              this.restaurants.push(element)
+            })
+            this.loading = false
             if (response.data.length < this.size) {
-              this.finished = true;
+              this.finished = true
             }
           },
           error => {
-            console.log(error);
+            console.log(error)
           }
-        );
-      }, 500);
+        )
+      }, 500)
     }
     //下拉刷新
     // onRefresh(){
@@ -187,21 +187,21 @@ export default {
   computed: {
     currentAddress() {
       if (!this.$store.getters.address) {
-        return "正在定位中...";
-      } else return this.$store.getters.address;
+        return '正在定位中...'
+      } else return this.$store.getters.address
     },
     currentCity() {
       return (
         this.$store.getters.location.addressComponent.city ||
         this.$store.getters.location.addressComponent.province
-      );
+      )
     }
   },
   components: {
     FilterView,
     IndexShop
   }
-};
+}
 </script>
 
 <style lang="less" scoped>
@@ -293,7 +293,7 @@ export default {
 .shoplist-title:after,
 .shoplist-title:before {
   display: block;
-  content: "一";
+  content: '一';
   width: 5.333333vw;
   height: 0.266667vw;
   color: #999;

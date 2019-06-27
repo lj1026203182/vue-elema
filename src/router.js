@@ -56,6 +56,21 @@ const router = new Router({
       path: '/ShopStore/:id',
       name: 'ShopStore',
       component: () => import('./components/Shops/ShopStore.vue'),
+    },
+    {
+      path: '/myLocation',
+      name: 'MyLocation',
+      component: () => import('./components/Me/MyLocation.vue'),
+    },
+    {
+      path: '/myLocation/add',
+      name: 'MyLocationAdd',
+      component: () => import('./components/Me/MyLocationAdd.vue'),
+    },
+    {
+      path: '/myLocation/edit',
+      name: 'MyLocationEdit',
+      component: () => import('./components/Me/MyLocationEdit.vue'),
     }
   ],
 

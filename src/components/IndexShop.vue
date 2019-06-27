@@ -64,37 +64,37 @@
 </template>
 
 <script>
-import StarRate from "../components/StarRate";
+import StarRate from '../components/StarRate'
 export default {
-  name: "IndexShop",
+  name: 'IndexShop',
   props: {
     restaurant: Object
   },
   data() {
-    return {};
+    return {}
   },
   methods: {
     goToGoods() {
       window.sessionStorage.setItem(
-        "restaurant",
+        'restaurant',
         JSON.stringify(this.restaurant)
-      );
+      )
       this.$router.push({
-        name: "ShopStore",
+        name: 'ShopStore',
         params: { id: this.restaurant.id, restaurant: this.restaurant }
-      });
+      })
     }
   },
   computed: {
     distance() {
-      let res = Math.floor((this.restaurant.distance / 1000) * 100) / 100;
-      return res.toFixed(2);
+      let res = Math.floor((this.restaurant.distance / 1000) * 100) / 100
+      return res.toFixed(2)
     }
   },
   components: {
     StarRate
   }
-};
+}
 </script>
 
 <style lang="less" scoped>
