@@ -1,25 +1,66 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './views/Home.vue'
 
 Vue.use(Router)
 
-export default new Router({
-  mode: 'history',
+const router = new Router({
+  // mode: 'history',
   base: process.env.BASE_URL,
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: Home
+      component: () => import('./views/Index.vue'),
+      children: [
+        {
+          path: '',
+          redirect: '/home'
+        },
+        {
+          path: '/home',
+          name: 'Home',
+          component: () => import('./views/Home.vue'),
+        },
+        {
+          path: '/order',
+          name: 'Order',
+          component: () => import('./views/Order.vue'),
+        },
+        {
+          path: '/me',
+          name: 'Me',
+          component: () => import('./views/Me.vue'),
+        }
+      ]
     },
     {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
+      path: '/login',
+      name: 'Login',
+      component: () => import('./views/Login.vue')
+    },
+    {
+      path: '/address',
+      name: 'Address',
+      component: () => import('./views/Address.vue')
+    },
+    {
+      path: '/city',
+      name: 'City',
+      component: () => import('./views/City.vue')
+    },
+    {
+      path: '/search',
+      name: 'Search',
+      component: () => import('./views/Search.vue')
     }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  const isLogin = localStorage.login ? true : false;
+  if (to.path == '/login') {
+    next()
+  } else {
+    isLogin ? next() : next('/login')
+  }
+})
+export default router
