@@ -1,0 +1,18 @@
+├── /Alphabet/
+│  └── Alphabet.vue
+├── /FieldGroup/
+│  └── FieldGroup.vue
+├── /FilterView/
+│  └── FilterView.vue
+├── IndexShop.vue
+├── /Location/
+│  └── Location.vue
+├── NavTab.vue
+├── /Shops/
+│  ├── Goods.vue
+│  ├── Rate.vue
+│  ├── Shop.vue
+│  └── ShopStore.vue
+├── StarRate.vue
+├── /TabBar/
+│  └── TabBar.vue

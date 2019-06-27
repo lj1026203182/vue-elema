@@ -51,9 +51,16 @@ const router = new Router({
       path: '/search',
       name: 'Search',
       component: () => import('./views/Search.vue')
+    },
+    {
+      path: '/ShopStore/:id',
+      name: 'ShopStore',
+      component: () => import('./components/Shops/ShopStore.vue'),
     }
-  ]
+  ],
+
 })
+
 
 router.beforeEach((to, from, next) => {
   const isLogin = localStorage.login ? true : false;

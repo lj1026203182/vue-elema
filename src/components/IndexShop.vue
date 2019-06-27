@@ -1,42 +1,35 @@
 <template>
   <div class="indexshop">
-    <div class="index-info">
+    <div class="index-info" @click="goToGoods">
       <div class="index-img">
-        <van-image fit="contain" lazy-load :src="restaurant.image_path" />
+        <van-image fit="contain" lazy-load :src="restaurant.image_path"/>
       </div>
       <div class="index-main">
         <div class="index-line">
           <van-row type="flex">
-            <van-col span="3" class="premium" v-if="restaurant.is_premium"
-              >品牌</van-col
-            >
+            <van-col span="3" class="premium" v-if="restaurant.is_premium">品牌</van-col>
             <van-col class="title">{{ restaurant.name }}</van-col>
           </van-row>
         </div>
         <div class="index-line">
           <div class="rating-wrapper">
             <van-row type="flex" justify="space-between">
-              <van-col
-                ><van-row type="flex" gutter="4">
+              <van-col>
+                <van-row type="flex" gutter="4">
                   <van-col>
-                    <StarRate
-                      :rating="restaurant.rating"
-                      :size="8"
-                      :gutter="2"
-                    ></StarRate>
+                    <StarRate :rating="restaurant.rating" :size="8" :gutter="2"></StarRate>
                   </van-col>
                   <van-col>{{ restaurant.rating }}</van-col>
                   <van-col>月售{{ restaurant.recent_order_num }}单</van-col>
-                </van-row></van-col
-              >
+                </van-row>
+              </van-col>
               <van-col>
                 <van-row>
                   <van-col
                     v-if="restaurant.delivery_mode"
                     class="icon-hollow"
-                    >{{ restaurant.delivery_mode.text }}</van-col
-                  ></van-row
-                >
+                  >{{ restaurant.delivery_mode.text }}</van-col>
+                </van-row>
               </van-col>
             </van-row>
           </div>
@@ -47,9 +40,7 @@
               <van-col>
                 <van-row type="flex" gutter="4">
                   <van-col type="flex">
-                    <van-col>
-                      {{ restaurant.float_minimum_order_amount }}起送
-                    </van-col>
+                    <van-col>{{ restaurant.float_minimum_order_amount }}起送</van-col>
                     <van-col>|</van-col>
                     <van-col>配送费{{ restaurant.float_delivery_fee }}</van-col>
                   </van-col>
@@ -82,10 +73,18 @@ export default {
   data() {
     return {};
   },
-  created() {
-    console.log(this.restaurant);
+  methods: {
+    goToGoods() {
+      window.sessionStorage.setItem(
+        "restaurant",
+        JSON.stringify(this.restaurant)
+      );
+      this.$router.push({
+        name: "ShopStore",
+        params: { id: this.restaurant.id, restaurant: this.restaurant }
+      });
+    }
   },
-  methods: {},
   computed: {
     distance() {
       let res = Math.floor((this.restaurant.distance / 1000) * 100) / 100;

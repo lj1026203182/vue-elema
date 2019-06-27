@@ -3,20 +3,15 @@
     <!-- 地理位置 -->
     <div class="header">
       <div class="address_map" @click="clickToAddress">
-        <van-icon name="location" />
+        <van-icon name="location"/>
         <span>{{ currentAddress }}</span>
-        <van-icon name="arrow-down" />
+        <van-icon name="arrow-down"/>
       </div>
     </div>
     <!-- 搜索 -->
-    <div
-      class="search-wrapper"
-      :class="{ fixedview: fixedview }"
-      @click="$router.push('/search')"
-    >
+    <div class="search-wrapper" :class="{ fixedview: fixedview }" @click="$router.push('/search')">
       <div class="shop_search">
-        <van-icon name="search" />
-        搜索商家 商家名称
+        <van-icon name="search"/>搜索商家 商家名称
       </div>
     </div>
     <div class="container">
@@ -25,7 +20,7 @@
         <van-swipe :autoplay="3000">
           <van-swipe-item v-for="(image, index) in swipeImgs" :key="index">
             <div class="item-img">
-              <van-image width="100%" fit="cover" :src="image" />
+              <van-image width="100%" fit="cover" :src="image"/>
             </div>
           </van-swipe-item>
         </van-swipe>
@@ -33,14 +28,12 @@
       <!-- icon -->
       <div class="swiper-icon">
         <van-swipe :loop="false">
-          <van-swipe-item
-            v-for="(items, index) in swipeIcons"
-            :key="index"
-            class="items-icon"
-          >
+          <van-swipe-item v-for="(items, index) in swipeIcons" :key="index" class="items-icon">
             <ul>
               <li v-for="(item, index) in items" :key="index" class="icon">
-                <div class="img-wrapper"><img :src="item.image" alt="" /></div>
+                <div class="img-wrapper">
+                  <img :src="item.image" alt>
+                </div>
                 <p>{{ item.name }}</p>
               </li>
             </ul>
@@ -48,20 +41,14 @@
         </van-swipe>
       </div>
       <div class="shoplist-title">推荐商家</div>
-      <filter-view
-        :filterData="filterData"
-        @searchFixed="searchFixed"
-        @updata="updata"
-      ></filter-view>
+      <filter-view :filterData="filterData" @searchFixed="searchFixed" @updata="updata"></filter-view>
       <!-- 下拉刷新 -->
       <!-- <van-pull-refresh v-model="isRefresh" @refresh="onRefresh">
         <p>刷新次数</p>
-      </van-pull-refresh> -->
+      </van-pull-refresh>-->
       <!-- 商家列表 -->
       <div class="shoplist">
-        <van-loading size="24px" vertical color="#1989fa" v-if="isLoading"
-          >加载中...</van-loading
-        >
+        <van-loading size="24px" vertical color="#1989fa" v-if="isLoading">加载中...</van-loading>
         <van-list
           v-model="loading"
           :finished="finished"
@@ -69,9 +56,9 @@
           @load="onLoad"
           v-else
         >
-          <van-cell v-for="(item, index) in restaurants" :key="index"
-            ><index-shop :restaurant="item.restaurant"></index-shop
-          ></van-cell>
+          <van-cell v-for="(item, index) in restaurants" :key="index">
+            <index-shop :restaurant="item.restaurant"></index-shop>
+          </van-cell>
         </van-list>
       </div>
     </div>
@@ -161,6 +148,7 @@ export default {
     //更新列表数据
     updata(condition) {
       this.data = condition;
+      this.finished = false;
       // console.log(this.data);
       this.loadData();
     },
@@ -169,14 +157,13 @@ export default {
     },
     // 上啦加载
     onLoad() {
-      if (!this.finished) {
-        this.page++;
-      }
+      this.page++;
       setTimeout(() => {
         serverApi(
           `/profile/restaurants/${this.page}/${this.size}`,
           this.data,
           response => {
+            // console.log(response.data);
             response.data.forEach(element => {
               this.restaurants.push(element);
             });
