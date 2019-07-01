@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vant@2.0/lib/index.css">
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vant@2.0/lib/vant.min.js"></script>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+      font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB",
+        "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+      letter-spacing: .1em;
+    }
+
+    #app {
+      color: #333;
+      padding: calc(20px + env(safe-area-inset-top)) calc(16px + env(safe-area-inset-right)) 12px calc(16px + env(safe-area-inset-left));
+    }
+
+    .title {
+      font-size: 0.6rem;
+      text-align: center;
+      margin: 30px auto;
+    }
+
+    .filed {
+      margin-top: 50px;
+    }
+
+    .confirm {
+      margin-top: 30px;
+    }
+
+    .confirm .van-button {
+      border-radius: 8px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <h1 class="title">等级考试成绩查询</h1>
+    <div class="filed">
+      <van-cell-group>
+        <van-field v-model="username" required clearable label="姓名" size="large" placeholder="请输入姓名"></van-field>
+        <van-field v-model="password" type="password" label="身份证号" size="large" placeholder="请输入身份证号" required>
+        </van-field>
+      </van-cell-group>
+    </div>
+    <div class="confirm">
+      <van-button type="primary" size="large" @click="getData">查看成绩</van-button>
+    </div>
+  </div>
+</body>
+
+<script>
+  var vm = new Vue({
+    el: '#app',
+    data: {
+      username: '',
+      password: '',
+
+    },
+    methods: {
+      getData() {
+
+      }
+    },
+  })
+    (function (doc, win) {
+      var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+          var clientWidth = docEl.clientWidth;
+          if (!clientWidth) return;
+          docEl.style.fontSize = 50 * (clientWidth / 375) + 'px';
+        };
+      if (!doc.addEventListener) return;
+      win.addEventListener(resizeEvt, recalc, false);
+      doc.addEventListener('DOMContentLoaded', recalc, false);
+    })(document, window)
+</script>
+
+</html>

@@ -71,6 +71,11 @@ const router = new Router({
       path: '/myLocation/edit',
       name: 'MyLocationEdit',
       component: () => import('./components/Me/MyLocationEdit.vue'),
+    },
+    {
+      path: '/timetable',
+      name: 'TimeTable',
+      component: () => import('./components/Others/TimeTable.vue'),
     }
   ],
 

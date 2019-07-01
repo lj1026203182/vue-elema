@@ -1,31 +1,176 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport"
+    content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
   <style>
-    .tab{
-      height: 100px;
-      background-color: skyblue;
+    * {
+      padding: 0;
+      margin: 0;
+      font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB",
+        "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+      letter-spacing: .1em;
     }
-  .nav{
-    position: sticky;
-    top: 0;
-    height: 10px;
-    background-color: #ff0;
-  }
-  p{
-    height: 2000px;
-  }
+
+    #app {
+      color: #333;
+      padding: calc(20px + env(safe-area-inset-top)) calc(16px + env(safe-area-inset-right)) 12px calc(16px + env(safe-area-inset-left));
+    }
+
+    .title {
+      font-weight: 600;
+      font-size: 0.4rem;
+      margin-bottom: 14px;
+    }
+
+    .nav {
+      z-index: 1;
+      margin-bottom: 22px;
+      line-height: 20px;
+      font-size: 0;
+      word-wrap: break-word;
+      word-break: break-all;
+    }
+
+    .nav .author {
+      display: inline-block;
+      vertical-align: middle;
+      margin: 0 10px 10px 0;
+      font-size: 15px;
+      color: rgba(0, 0, 0, 0.3);
+    }
+
+    .nav .name {
+      display: inline-block;
+      vertical-align: middle;
+      margin: 0 10px 10px 0;
+      font-size: 15px;
+      color: #576b95;
+    }
+
+    .nav .time {
+      font-style: normal;
+      color: rgba(0, 0, 0, 0.3);
+      display: inline-block;
+      vertical-align: middle;
+      margin: 0 10px 10px 0;
+      font-size: 15px;
+    }
+
+    .content {
+      font-size: 14px;
+      text-align: justify;
+    }
+
+    .footer {
+      margin-top: 12px;
+      font-style: normal;
+      color: rgba(0, 0, 0, 0.3);
+      display: inline-block;
+      vertical-align: middle;
+      font-size: 15px;
+    }
+
+    .footer .nums {
+      margin: 0 6px 0 6px;
+    }
   </style>
 </head>
+
 <body>
-  <div id="box">
-    <div class="tab"></div>
-    <div class="nav"></div>
-    <p>fsffsfa </p>
+  <div id="app">
+    <div class="title">在古典式南法公馆中方式是否回房间</div>
+    <div class="nav">
+      <span class="author">原创;我</span>
+      <span class="name">学院</span>
+      <span class="time">2018-01-01</span>
+    </div>
+    <div class="content">
+      <span>
+        全国计算机等级考试（National Computer Rank
+        Examination，简称NCRE），是经教育部批准，由教育部考试中心主办，面向社会，用于考查应试人员计算机应用知识与技能的全国性计算机水平考试体系。2019年6月全国计算机等级考试时间为6月1日（仅一天）。现将有关事项公告如下：
+        一、报名时间
+        2019年5月6日-12日
+        二、报名网址
+        http://ncre.cqksy.cn/
+        三、参加全国计算机等级考试相应科目，获得证书即可免考我院相应课程的期末考试（对于已经参加期末考试的同学，两种成绩取高值）。我院本次考试开考科目与可免考的课程衔接如下：
+        级别
+        科目名称
+        科目代码
+        考试时间
+        考试方式
+        以证代考课程
+        一级
+        计算机基础及MS Office应用
+        15
+        90分钟
+        无纸化
+        计算机应用基础
+        计算机基础及Photoshop应用
+        16
+        90分钟
+        无纸化
+        网页美工
+        数字图像设计
+        二级
+        Java语言程序设计
+        28
+        120分钟
+        无纸化
+        JAVA编程技术及应用
+        数据结构（JAVA）
+        MySQL数据库程序设计
+        63
+        120分钟
+        无纸化
+        MySQL数据库应用于维护
+        数据库应用基础(MySQL)
+        Web程序设计
+        64
+        120分钟
+        无纸化
+        网页设计与制作
+        HTML5前端开发
+        JavaScript程序设计
+        四、网上缴费
+        网上缴费截止时间：2019年5月12日24:00。
+        根据重庆市物价局相关收费文件，我市全国计算机等级考试一、二级收费标准均为110元/人.科。
+        五、考试时间
+        2019年6月1日（仅一天），具体考试批次以准考证为准。
+        六、其他说明
+        （一）考生报名时应仔细阅读报名平台上注明的相关规定，认真、准确地填报有关信息（特别是姓名、联系电话等信息），并上传照片。一旦缴费成功，报名信息将无法更改，如有差错，由考生本人负责。
+        （二）报名所使用的浏览器：建议使用谷歌、火狐或IE9以上浏览器，尽量不使用360浏览器。如果在报名过程中，遇到上传照片或缴费有困难，可以在工作时间电话咨询所报考点。
+        （三）若网上报名不成功，可在5月12日前咨询所报考点。
+        &nbsp;
+        注意事项：
+        l&nbsp; 首次报名参加计算机等级考试的考生，在报名网站上需重新注册新的账号，本账号与英语四级考试和英语AB级考试账号互不通用。
+        l&nbsp; 请考生们选择“重庆航天职业技术学院”考点，可以同时报考多个科目，信息录入时要谨慎仔细，一旦缴费成功将不能更改。
+        l&nbsp; 上传照片时应根据网页提示，采用免冠登记照的样式，不建议使用自拍，美颜相机，生活照、卡通照片等不规范的图片（考生入场时会使用人脸识别技术），以免在考试和证书打印过程中造成不必要麻烦。
+
+      </span>
+    </div>
+    <div class="footer">
+      <span class="read-num">阅读<span class="nums">100</span></span>
+    </div>
   </div>
 </body>
+<script>
+  (function (doc, win) {
+    var docEl = doc.documentElement,
+      resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+      recalc = function () {
+        var clientWidth = docEl.clientWidth;
+        if (!clientWidth) return;
+        docEl.style.fontSize = 50 * (clientWidth / 375) + 'px';
+      };
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+  })(document, window)
+</script>
+
 </html>

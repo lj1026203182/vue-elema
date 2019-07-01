@@ -1,14 +1,14 @@
 <template>
   <div class="goods">
     <div class="bgimage">
-      <van-image width="100%" fit="contain" />
-      <van-icon name="arrow-left" @click="$router.back()" />
+      <van-image width="100%" fit="contain"/>
+      <van-icon name="arrow-left" @click="$router.back()"/>
     </div>
     <!-- 脑壳 -->
     <div class="nav-title">
       <van-row type="flex" justify="center">
         <div class="title-img">
-          <van-image width="100%" fit="contain" :src="restaurant.image_path" />
+          <van-image width="100%" fit="contain" :src="restaurant.image_path"/>
         </div>
       </van-row>
       <van-row type="flex" justify="center">
@@ -17,13 +17,18 @@
       <van-row type="flex" justify="center" class="desc">
         <van-col span="6">评分{{ restaurant.rating }}</van-col>
         <van-col span="6">月售{{ restaurant.recent_order_num }}</van-col>
-        <van-col span="6"
-          >约{{ restaurant.float_minimum_order_amount }}送达</van-col
-        >
+        <van-col span="6">约{{ restaurant.float_minimum_order_amount }}送达</van-col>
       </van-row>
     </div>
     <!-- navtab -->
     <NavTab :navTabData="navTabData" :menu="menu"></NavTab>
+    <div class="carcontrol" @click="showPopup"></div>
+    <van-popup
+      v-model="show"
+      get-container="carcontrol"
+      position="bottom"
+      :style="{ height: '20%' }"
+    />
   </div>
 </template>
 
@@ -37,7 +42,8 @@ export default {
       restaurant: {},
       menu: [],
       rate: [],
-      shop: []
+      shop: [],
+      show: false
     }
   },
   created() {
@@ -51,7 +57,7 @@ export default {
       getApi(
         '/profile/batch_shop',
         response => {
-          console.log(response);
+          console.log(response)
           this.menu = response.data.menu
           this.rate = response.data.recommend
           this.shop = response.data.rst
@@ -60,6 +66,9 @@ export default {
           console.log(error)
         }
       )
+    },
+    showPopup() {
+      this.show = !this.show
     }
   },
   computed: {
@@ -124,6 +133,15 @@ export default {
       font-size: 10px;
       margin-top: 10px;
     }
+  }
+  .carcontrol {
+    z-index: 5000;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    height: 46px;
+    width: 100%;
+    background-color: #666;
   }
 }
 </style>
