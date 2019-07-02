@@ -8,7 +8,7 @@
         <div class="index-line">
           <van-row type="flex">
             <van-col span="3" class="premium" v-if="restaurant.is_premium">品牌</van-col>
-            <van-col class="title">{{ restaurant.name }}</van-col>
+            <van-col span="21" class="title van-ellipsis">{{ restaurant.name }}</van-col>
           </van-row>
         </div>
         <div class="index-line">

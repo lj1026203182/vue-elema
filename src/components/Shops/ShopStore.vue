@@ -1,14 +1,14 @@
 <template>
   <div class="goods">
     <div class="bgimage">
-      <van-image width="100%" fit="contain"/>
-      <van-icon name="arrow-left" @click="$router.back()"/>
+      <van-image width="100%" fit="contain" />
+      <van-icon name="arrow-left" @click="$router.back()" />
     </div>
     <!-- 脑壳 -->
     <div class="nav-title">
       <van-row type="flex" justify="center">
         <div class="title-img">
-          <van-image width="100%" fit="contain" :src="restaurant.image_path"/>
+          <van-image width="100%" fit="contain" :src="restaurant.image_path" />
         </div>
       </van-row>
       <van-row type="flex" justify="center">
@@ -22,19 +22,13 @@
     </div>
     <!-- navtab -->
     <NavTab :navTabData="navTabData" :menu="menu"></NavTab>
-    <div class="carcontrol" @click="showPopup"></div>
-    <van-popup
-      v-model="show"
-      get-container="carcontrol"
-      position="bottom"
-      :style="{ height: '20%' }"
-    />
   </div>
 </template>
 
 <script>
 import NavTab from '../NavTab'
 import { getApi } from '../../axios/index'
+import ShopCart from './ShopCart'
 export default {
   name: 'ShopStore',
   data() {
@@ -42,8 +36,7 @@ export default {
       restaurant: {},
       menu: [],
       rate: [],
-      shop: [],
-      show: false
+      shop: []
     }
   },
   created() {
@@ -57,18 +50,29 @@ export default {
       getApi(
         '/profile/batch_shop',
         response => {
-          console.log(response)
+          // console.log(response)
+          response.data.menu.forEach(items => {
+            items.foods.forEach(item => {
+              item.count = 0
+            })
+          })
           this.menu = response.data.menu
-          this.rate = response.data.recommend
           this.shop = response.data.rst
         },
         error => {
           console.log(error)
         }
-      )
-    },
-    showPopup() {
-      this.show = !this.show
+      ),
+        getApi(
+          '/profile/comments',
+          response => {
+            this.rate = response.data
+            // console.log(response)
+          },
+          error => {
+            console.log(error)
+          }
+        )
     }
   },
   computed: {
@@ -99,7 +103,8 @@ export default {
     }
   },
   components: {
-    NavTab
+    NavTab,
+    ShopCart
   },
   beforeRouteLeave(to, from, next) {
     window.sessionStorage.removeItem('restaurant')
@@ -142,6 +147,11 @@ export default {
     height: 46px;
     width: 100%;
     background-color: #666;
+  }
+  .van-popup {
+    width: 100%;
+    max-height: 200px;
+    margin-bottom: 46px;
   }
 }
 </style>

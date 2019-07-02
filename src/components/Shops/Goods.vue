@@ -9,6 +9,7 @@
             v-for="(item, index) in data.menu"
             :key="index"
             ref="menuList"
+            :class="{'current':currentIndex===index}"
             @click="handleClickFoods(item,index)"
           >
             <span class="menu-text">
@@ -30,7 +31,7 @@
                 :key="index"
               >
                 <!-- 图片 -->
-                <img class="item-pic" :src="item.image_path" alt>
+                <img class="item-pic" :src="item.image_path" alt />
                 <!-- 套餐信息 -->
                 <div class="item-content">
                   <div class="item-title">{{item.name}}</div>
@@ -40,11 +41,14 @@
                     <span class="sell-rating">好评{{item.rating}}%</span>
                   </div>
                   <div class="item-price">
-                    <span class="newprice">{{item.price}}</span>
+                    <span class="newprice">{{item.activity.fixed_price}}</span>
                     <span class="oldprice">{{item.oldPrice}}</span>
                   </div>
                 </div>
                 <!-- 右侧添加购物车按钮 -->
+                <div class="control-wrapper">
+                  <car-control class="car-control" :food="item"></car-control>
+                </div>
               </li>
             </ul>
           </li>
@@ -53,11 +57,16 @@
       <!-- 底部shopcart组件-->
     </div>
     <!-- 商品详情组件 -->
+    <div class="carcontrol" @click="showPopup"></div>
+    <van-popup v-model="show" get-container="carcontrol" position="bottom">
+      <ShopCart :selcet="selectFoods" @closeCart="closeCart"></ShopCart>
+    </van-popup>
   </div>
 </template>
 
 <script>
 import Bscroll from 'better-scroll'
+import CarControl from '../CarControl'
 export default {
   name: 'Goods',
   props: {
@@ -69,12 +78,12 @@ export default {
   data() {
     return {
       foodsHeightList: [],
-      scrollY: ''
+      scrollY: '',
+      selectedFoods: [],
+      show: false
     }
   },
-  created() {
-    console.log(this.data)
-  },
+  created() {},
   methods: {
     //betterscroll
     _initScroll() {
@@ -86,7 +95,8 @@ export default {
         })
         this.foodsWrapper = new Bscroll(this.$refs.foodsWrapper, {
           probeType: 3,
-          click: true
+          click: true,
+          mouseWheel: true
         })
         //获取当前foods栏滚动高度
         this.foodsWrapper.on('scroll', pos => {
@@ -104,12 +114,50 @@ export default {
     },
     handleClickFoods(item, index) {
       this.foodsWrapper.scrollToElement(this.$refs.foodsList[index], 300)
+    },
+    followScroll(index) {
+      this.menuScroll.scrollToElement(this.$refs.menuList[index], 300, 0, -100)
+    },
+    showPopup() {
+      if (this.selectFoods.length > 0) {
+        this.show = !this.show
+      }
+    },
+    closeCart() {
+      this.show = false
+    }
+    // selectFood(nums, item) {
+    //   item.count = nums
+    //   // console.log(this.data.menu)
+    // }
+  },
+  components: {
+    CarControl
+  },
+  computed: {
+    currentIndex() {
+      for (let i = 0; i < this.foodsHeightList.length; i++) {
+        let height1 = this.foodsHeightList[i]
+        let height2 = this.foodsHeightList[i + 1]
+        if (this.scrollY > height1 && this.scrollY <= height2) {
+          this.followScroll(i)
+          return i
+        }
+      }
+      return 0
+    },
+    selectFoods() {
+      let food = []
+      this.data.menu.forEach(items => {
+        items.foods.forEach(item => {
+          if (item.count && item.count > 0) {
+            food.push(item)
+          }
+        })
+      })
+      return food
     }
   },
-  components: {},
-  computed: {
-  },
-  created() {},
   mounted() {
     //该时间点可以最先操作DOM节点    created不能操作
     this._initScroll()
@@ -132,14 +180,12 @@ export default {
     background-color: #f3f5f7;
 
     .menu-items {
-      width: 100%;
       .menu-content {
         width: 100%;
         height: 54px;
         line-height: 14px;
         display: table;
         text-align: center;
-        padding: 0 6px;
 
         &.current {
           background-color: #fff;
@@ -249,7 +295,7 @@ export default {
         .control-wrapper {
           position: absolute;
           right: 15px;
-          bottom: 15px;
+          bottom: 4px;
         }
 
         .car-control {
