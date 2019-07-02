@@ -28,7 +28,6 @@
 <script>
 import NavTab from '../NavTab'
 import { getApi } from '../../axios/index'
-import ShopCart from './ShopCart'
 export default {
   name: 'ShopStore',
   data() {
@@ -73,6 +72,15 @@ export default {
             console.log(error)
           }
         )
+      // getApi(
+      //   '/profile/seller',
+      //   response => {
+      //     this.shop = response.data
+      //   },
+      //   error => {
+      //     console.log(error)
+      //   }
+      // )
     }
   },
   computed: {
@@ -103,8 +111,7 @@ export default {
     }
   },
   components: {
-    NavTab,
-    ShopCart
+    NavTab
   },
   beforeRouteLeave(to, from, next) {
     window.sessionStorage.removeItem('restaurant')
@@ -138,20 +145,6 @@ export default {
       font-size: 10px;
       margin-top: 10px;
     }
-  }
-  .carcontrol {
-    z-index: 5000;
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    height: 46px;
-    width: 100%;
-    background-color: #666;
-  }
-  .van-popup {
-    width: 100%;
-    max-height: 200px;
-    margin-bottom: 46px;
   }
 }
 </style>

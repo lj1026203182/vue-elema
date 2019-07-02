@@ -52,14 +52,14 @@ export default {
 <style lang="less" scoped>
 .shopcart {
   width: 100%;
-  height: 100%;
-  position: relative;
+  position: absolute;
+  left: 0;
+  top: 0;
   .header {
     height: 36px;
     line-height: 36px;
     width: 100%;
     background-color: #eceff1;
-    position: fixed;
     z-index: 3;
     .selected {
       margin-left: 10px;
@@ -72,7 +72,6 @@ export default {
     }
   }
   .content{
-    padding-top: 36px;
   }
 }
 </style>

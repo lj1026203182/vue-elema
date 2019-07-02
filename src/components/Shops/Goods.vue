@@ -1,66 +1,55 @@
 <template>
-  <div>
-    <div class="goods">
-      <!-- 左侧menu -->
-      <div class="menu-wrapper" ref="menuWrapper">
-        <ul class="menu-items">
-          <li
-            class="menu-content border-bottom"
-            v-for="(item, index) in data.menu"
-            :key="index"
-            ref="menuList"
-            :class="{'current':currentIndex===index}"
-            @click="handleClickFoods(item,index)"
-          >
-            <span class="menu-text">
-              <span class="menu-icon"></span>
-              {{item.name}}
-            </span>
-          </li>
-        </ul>
-      </div>
-      <!-- 右侧食物 -->
-      <div class="foods-wrapper" ref="foodsWrapper">
-        <ul>
-          <li class="foods-list" v-for="(items, index) in data.menu" :key="index" ref="foodsList">
-            <h1 class="list-title">{{items.name}}</h1>
-            <ul>
-              <li
-                class="foods-item border-bottom"
-                v-for="(item, index) in items.foods"
-                :key="index"
-              >
-                <!-- 图片 -->
-                <img class="item-pic" :src="item.image_path" alt />
-                <!-- 套餐信息 -->
-                <div class="item-content">
-                  <div class="item-title">{{item.name}}</div>
-                  <div class="item-dec van-ellipsis">{{item.description}}</div>
-                  <div class="item-sell">
-                    <span class="sell-selled">月售{{item.sellCount}}份</span>
-                    <span class="sell-rating">好评{{item.rating}}%</span>
-                  </div>
-                  <div class="item-price">
-                    <span class="newprice">{{item.activity.fixed_price}}</span>
-                    <span class="oldprice">{{item.oldPrice}}</span>
-                  </div>
-                </div>
-                <!-- 右侧添加购物车按钮 -->
-                <div class="control-wrapper">
-                  <car-control class="car-control" :food="item"></car-control>
-                </div>
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </div>
-      <!-- 底部shopcart组件-->
+  <div class="goods">
+    <!-- 左侧menu -->
+    <div class="menu-wrapper" ref="menuWrapper">
+      <ul class="menu-items">
+        <li
+          class="menu-content border-bottom"
+          v-for="(item, index) in data.menu"
+          :key="index"
+          ref="menuList"
+          :class="{'current':currentIndex===index}"
+          @click="handleClickFoods(item,index)"
+        >
+          <span class="menu-text">
+            <span class="menu-icon"></span>
+            {{item.name}}
+          </span>
+        </li>
+      </ul>
     </div>
-    <!-- 商品详情组件 -->
-    <div class="carcontrol" @click="showPopup"></div>
-    <van-popup v-model="show" get-container="carcontrol" position="bottom">
-      <ShopCart :selcet="selectFoods" @closeCart="closeCart"></ShopCart>
-    </van-popup>
+    <!-- 右侧食物 -->
+    <div class="foods-wrapper" ref="foodsWrapper">
+      <ul>
+        <li class="foods-list" v-for="(items, index) in data.menu" :key="index" ref="foodsList">
+          <h1 class="list-title">{{items.name}}</h1>
+          <ul>
+            <li class="foods-item border-bottom" v-for="(item, index) in items.foods" :key="index">
+              <!-- 图片 -->
+              <img class="item-pic" :src="item.image_path" alt />
+              <!-- 套餐信息 -->
+              <div class="item-content">
+                <div class="item-title">{{item.name}}</div>
+                <div class="item-dec van-ellipsis">{{item.description}}</div>
+                <div class="item-sell">
+                  <span class="sell-selled">月售{{item.sellCount}}份</span>
+                  <span class="sell-rating">好评{{item.rating}}%</span>
+                </div>
+                <div class="item-price">
+                  <span class="newprice">{{item.activity.fixed_price}}</span>
+                  <span class="oldprice">{{item.oldPrice}}</span>
+                </div>
+              </div>
+              <!-- 右侧添加购物车按钮 -->
+              <div class="control-wrapper">
+                <car-control class="car-control" :food="item"></car-control>
+              </div>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <!-- 底部shopcart组件-->
   </div>
 </template>
 
@@ -79,8 +68,7 @@ export default {
     return {
       foodsHeightList: [],
       scrollY: '',
-      selectedFoods: [],
-      show: false
+      selectedFoods: []
     }
   },
   created() {},
@@ -117,15 +105,8 @@ export default {
     },
     followScroll(index) {
       this.menuScroll.scrollToElement(this.$refs.menuList[index], 300, 0, -100)
-    },
-    showPopup() {
-      if (this.selectFoods.length > 0) {
-        this.show = !this.show
-      }
-    },
-    closeCart() {
-      this.show = false
     }
+
     // selectFood(nums, item) {
     //   item.count = nums
     //   // console.log(this.data.menu)
@@ -145,17 +126,6 @@ export default {
         }
       }
       return 0
-    },
-    selectFoods() {
-      let food = []
-      this.data.menu.forEach(items => {
-        items.foods.forEach(item => {
-          if (item.count && item.count > 0) {
-            food.push(item)
-          }
-        })
-      })
-      return food
     }
   },
   mounted() {
@@ -168,11 +138,10 @@ export default {
 
 <style lang="less" scoped>
 .goods {
+  height: 100%;
   display: flex;
   font-weight: 200;
-  overflow: hidden;
-  position: relative;
-  margin-bottom: 46px;
+  height: calc(100% - 86px);
 
   .menu-wrapper {
     width: 80px;
@@ -303,19 +272,5 @@ export default {
       }
     }
   }
-
-  .shopcart {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    z-index: 10;
-  }
-}
-
-.food-detail {
-  position: absolute;
-  left: 0;
-  bottom: 46px;
-  z-index: 9;
 }
 </style>
