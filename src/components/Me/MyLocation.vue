@@ -1,6 +1,6 @@
 <template>
   <div class="mylocation">
-    <van-nav-bar title="我的地址" left-text="返回" left-arrow @click-left="$router.push('/me')"/>
+    <van-nav-bar title="我的地址" left-text="返回" left-arrow @click-left="$router.push('/me')" />
     <van-address-list
       v-model="chosenAddressId"
       :list="list"
@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import { getApi } from '../../axios/index'
 export default {
   name: 'MyLocation',
   data() {
@@ -22,16 +23,8 @@ export default {
       disabledList: []
     }
   },
-  created() {},
-  activated() {
-    if (window.sessionStorage.allAddress) {
-      this.list = JSON.parse(window.sessionStorage.allAddress)
-      this.list.forEach(item => {
-        item.address =
-          item.province + item.city + item.county + item.addressDetail
-      })
-      console.log(this.list)
-    }
+  created() {
+    this.getData()
   },
   methods: {
     onEdit(item, index) {
@@ -39,6 +32,22 @@ export default {
         name: 'MyLocationEdit',
         params: { address: item, index: index }
       })
+    },
+    getData() {
+      let d = JSON.parse(window.localStorage.login)
+      getApi(
+        `/user/user_info/${d._id}`,
+        response => {
+          console.log(response)
+          response.data.myAddress.forEach(item => {
+            item.tel = item.phone
+          })
+          this.list = response.data.myAddress
+        },
+        error => {
+          console.log(error)
+        }
+      )
     }
   }
 }

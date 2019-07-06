@@ -1,6 +1,6 @@
 <template>
   <div class="mylocationadd">
-    <van-nav-bar title="修改地址" left-text="返回" left-arrow @click-left="$router.push('/myLocation')"/>
+    <van-nav-bar title="修改地址" left-text="返回" left-arrow @click-left="$router.push('/myLocation')" />
     <van-address-edit
       :address-info="addressInfo"
       :area-list="areaList"
@@ -14,6 +14,7 @@
 
 <script>
 import areaList from '../../assets/arealist'
+import { serverApi } from '../../axios/index'
 export default {
   name: 'MyLocationAdd',
   data() {
@@ -28,25 +29,20 @@ export default {
   },
   methods: {
     onSave(e) {
-      let d = new Date()
-      e.id = d.getTime()
-      let res = JSON.parse(window.sessionStorage.allAddress)
-      res[this.index] = e
-      window.sessionStorage.setItem('allAddress', JSON.stringify(res))
-      this.$router.push('/myLocation')
-      this.$router.push('')
+      let id = JSON.parse(window.localStorage.login)
+      serverApi(
+        `/user/add_address/${id._id}`,
+        d,
+        response => {
+          console.log(response)
+          this.$router.push('/mylocation')
+        },
+        error => {
+          console.log(error)
+        }
+      )
     },
     onChangeDetail(val) {}
-  },
-  beforeRouteEnter(to, from, next) {
-    if (window.sessionStorage.allAddress) {
-      next(vm => {
-        vm.addressInfo = to.params.address
-        vm.index = to.params.index
-      })
-    } else {
-      return
-    }
   }
 }
 </script>
