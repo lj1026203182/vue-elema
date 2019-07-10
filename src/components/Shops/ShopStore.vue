@@ -8,7 +8,7 @@
     <div class="nav-title">
       <van-row type="flex" justify="center">
         <div class="title-img">
-          <van-image width="100%" fit="contain" :src="restaurant.image_path" />
+          <!-- <van-image width="100%" fit="contain" :src="restaurant.image_path" /> -->
         </div>
       </van-row>
       <van-row type="flex" justify="center">
@@ -21,7 +21,7 @@
       </van-row>
     </div>
     <!-- navtab -->
-    <NavTab :navTabData="navTabData" :menu="menu"></NavTab>
+    <NavTab :navTabData="navTabData" :menu="menu" :restaurant="restaurant"></NavTab>
   </div>
 </template>
 

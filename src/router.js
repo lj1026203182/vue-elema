@@ -76,6 +76,16 @@ const router = new Router({
       path: '/timetable',
       name: 'TimeTable',
       component: () => import('./components/Others/TimeTable.vue'),
+    },
+    {
+      path: '/settlement',
+      name: 'Settlement',
+      component: () => import('./components/Order/Settlement.vue'),
+    },
+    {
+      path: '/pay',
+      name: 'Pay',
+      component: () => import('./components/Order/Pay.vue'),
     }
   ],
 

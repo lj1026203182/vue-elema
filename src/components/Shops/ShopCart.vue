@@ -43,6 +43,8 @@ export default {
       this.$emit('closeCart')
     }
   },
+  computed: {
+  },
   components: {
     CarControl
   }

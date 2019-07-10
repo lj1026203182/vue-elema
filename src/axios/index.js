@@ -11,6 +11,29 @@ const apiUrl = 'https://ele-interface.herokuapp.com/api'
 //   return Promise.reject(error)
 // })
 
+// 请求拦截
+axios.interceptors.request.use(
+  config => {
+    if (config.method == 'post') {
+      // config.data = qs.stringify(config.data);
+    }
+    return config;
+  },
+  error => {
+    return Promise.reject(error);
+  }
+);
+
+// 响应拦截
+axios.interceptors.response.use(
+  response => {
+    return response;
+  },
+  error => {
+    return Promise.reject(error);
+  }
+);
+
 
 const serverApi = (url, data, succFoo, errorFoo) => {
   let obj = {}
@@ -39,7 +62,7 @@ const serverApi = (url, data, succFoo, errorFoo) => {
 const getApi = (url, succFoo, errorFoo) => {
   axios({
     method: 'get',
-    url: apiUrl + url,
+    url: apiUrl + url
   }).then(response => {
     succFoo(response)
   })

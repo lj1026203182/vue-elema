@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-
+import { float_calculator } from './assets/math'
 Vue.use(Vuex)
 
 const types = {
@@ -19,6 +19,14 @@ const getters = {
   location: state => state.location,
   address: state => state.address,
   orderInfo: state => state.orderInfo,
+  totalPrice: state => {
+    let price = 0;
+    state.orderInfo.selectFoods.forEach(item => {
+      price += float_calculator(item.count * item.activity.fixed_price,2)
+    });
+    price += state.orderInfo.shopInfo.float_delivery_fee
+    return price
+  }
 }
 
 const mutations = {

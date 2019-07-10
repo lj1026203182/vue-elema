@@ -22,6 +22,12 @@
     <div class="login_btn">
       <van-button type="primary" size="large" :disabled="isClick" @click="handleLogin">登录</van-button>
     </div>
+    <div>
+      参考账号:16623035240
+    </div>
+    <div>
+      验证码:984389
+    </div>
   </div>
 </template>
 

@@ -5,7 +5,9 @@
         <component :is="item.component" :data="item.data"></component>
       </van-tab>
     </van-tabs>
-    <div class="shopcart" @click="showPopup" v-if="isFirst"></div>
+    <div class="shopcart" @click="showPopup" v-if="isFirst">
+      <div @click="settlement">{{totalPrice===0?minOrder:showPrice}}</div>
+    </div>
     <van-popup v-model="show" get-container="shopcart" position="bottom">
       <ShopCart :selcet="selectFoods" @closeCart="closeCart"></ShopCart>
     </van-popup>
@@ -14,15 +16,19 @@
 
 <script>
 import ShopCart from './Shops/ShopCart'
+import { float_calculator } from '../assets/math'
 export default {
   name: 'NavTab',
   props: {
-    navTabData: Array
+    navTabData: Array,
+    restaurant: Object
   },
   data() {
     return {
       active: 0,
-      show: false
+      show: false,
+      totalPrice: 0,
+      totalCount: 0
     }
   },
   methods: {
@@ -34,13 +40,27 @@ export default {
     closeCart() {
       this.show = false
     },
+    settlement() {
+      this.$store.dispatch('setOrderInfo', {
+        shopInfo: this.restaurant,
+        selectFoods: this.selectFoods
+      })
+      this.$router.push('/Settlement')
+    }
   },
   computed: {
     selectFoods() {
       let food = []
+      this.totalPrice = 0
+      this.totalCount = 0
       this.navTabData[0].data.menu.forEach(items => {
         items.foods.forEach(item => {
           if (item.count && item.count > 0) {
+            this.totalCount += item.count
+            this.totalPrice += float_calculator(
+              item.count * item.activity.fixed_price,
+              2
+            )
             food.push(item)
           }
         })
@@ -52,6 +72,23 @@ export default {
         return true
       }
       return false
+    },
+    minOrder() {
+      return this.restaurant.float_minimum_order_amount + '起送'
+    },
+    showPrice() {
+      if (this.totalPrice < this.restaurant.float_minimum_order_amount) {
+        return (
+          '还差' +
+          float_calculator(
+            this.restaurant.float_minimum_order_amount - this.totalPrice,
+            2
+          ) +
+          '起送'
+        )
+      } else {
+        return '去结算'
+      }
     }
   },
   components: {
@@ -68,9 +105,11 @@ export default {
     position: absolute;
     left: 0;
     bottom: 0;
+    color: #fff;
     background-color: #666;
     width: 100%;
     height: 46px;
+    line-height: 46px;
     z-index: 5000;
   }
   .van-popup {

@@ -5,6 +5,8 @@
       :area-list="areaList"
       show-postal
       show-set-default
+      show-search-result
+      :search-result="searchResult"
       @save="onSave"
       @change-detail="onChangeDetail"
     />
@@ -18,7 +20,9 @@ export default {
   name: 'MyLocationAdd',
   data() {
     return {
-      areaList: {}
+      areaList: {},
+      searchResult: [],
+      isLoading: false
     }
   },
   created() {
@@ -26,17 +30,6 @@ export default {
   },
   methods: {
     onSave(e) {
-      // let d = new Date()
-      // e.id = d.getTime()
-      // let address
-      // if (window.sessionStorage.allAddress) {
-      //   address = JSON.parse(window.sessionStorage.allAddress)
-      // } else {
-      //   address = []
-      // }
-      // address.push(e)
-      // window.sessionStorage.setItem('allAddress', JSON.stringify(address))
-      // this.$router.push('/myLocation')
       console.log(e)
       let id = JSON.parse(window.localStorage.login)
       let d = {
@@ -57,7 +50,32 @@ export default {
         }
       )
     },
-    onChangeDetail(val) {}
+    onChangeDetail(val) {
+      if (val) {
+        const _this = this
+        _this.searchResult = []
+        _this.isLoading = true
+        AMap.plugin('AMap.Autocomplete', function() {
+          // 实例化Autocomplete
+          var autoOptions = {
+            //city 限定城市，默认全国
+            city: _this.$store.getters.address
+          }
+          var autoComplete = new AMap.Autocomplete(autoOptions)
+          autoComplete.search(val, function(status, result) {
+            // 搜索成功时，result即是对应的匹配数据
+            console.log(result)
+            result.tips.forEach(item => {
+              let temp = {}
+              temp.name = item.name
+              temp.address = item.address
+              _this.searchResult.push(temp)
+            })
+            _this.isLoading = false
+          })
+        })
+      }
+    }
   }
 }
 </script>

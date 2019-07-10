@@ -1,7 +1,7 @@
 <template>
   <div class="carcontrol">
-    <div class="remove" @click.stop="delateCart" v-if="food.count">-</div>
-    <div class="nums" v-if="food.count">{{food.count}}</div>
+    <div class="remove" @click.stop="delateCart" v-if="food.count>0">-</div>
+    <div class="nums" v-if="food.count>0">{{food.count}}</div>
     <div class="add" @click.stop="addCart">+</div>
   </div>
 </template>
@@ -13,8 +13,7 @@ export default {
     food: {}
   },
   data() {
-    return {
-    }
+    return {}
   },
   methods: {
     delateCart() {
@@ -23,7 +22,7 @@ export default {
     addCart() {
       this.food.count++
     }
-  },
+  }
 }
 </script>
 
